@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regions Bank – Online Banking</title>
+<style>
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: Arial, Helvetica, sans-serif; color: #222; background: #fff; }
+a { text-decoration: none; }
+button { font-family: Arial, Helvetica, sans-serif; cursor: pointer; }
+
+/* ═══════════════════════════════════════════════
+   PAGE SWITCHER
+═══════════════════════════════════════════════ */
+.page { display: none !important; }
+.page.active { display: block !important; }
+
+/* ═══════════════════════════════════════════════
+   COLOUR TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --green-dark:   #004d26;
+  --green-mid:    #00833e;
+  --green-light:  #00a84f;
+  --green-pale:   #e6f4ed;
+  --green-border: #c0dbc8;
+  --green-bg:     #f3faf6;
+  --red:          #c0392b;
+  --red-pale:     #fdecea;
+  --gold:         #b5780c;
+  --gold-pale:    #fef3e2;
+  --text-dark:    #1a2e20;
+  --text-mid:     #444;
+  --text-light:   #777;
+  --border:       #dde8e2;
+  --white:        #ffffff;
+}
+
+/* ═══════════════════════════════════════════════
+   ░░░ LANDING PAGE ░░░
+═══════════════════════════════════════════════ */
+
+/* ── Top utility bar ── */
+.lp-topbar {
+  background: var(--green-dark);
+  padding: 7px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+}
+.lp-topbar a {
+  color: rgba(255,255,255,0.7);
+  font-size: 11.5px;
+  padding: 0 14px;
+  border-right: 1px solid rgba(255,255,255,0.18);
+  transition: color .15s;
+}
+.lp-topbar a:first-child { border-left: 1px solid rgba(255,255,255,0.18); }
+.lp-topbar a:hover { color: #fff; }
+
+/* ── Main nav ── */
+.lp-nav {
+  background: #fff;
+  border-bottom: 3px solid var(--green-mid);
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+.lp-logo { display: flex; align-items: center; gap: 11px; }
+.lp-logo-mark {
+  width: 42px; height: 42px;
+  background: var(--green-mid);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.lp-logo-mark svg { width: 24px; height: 24px; }
+.lp-logo-text { font-size: 22px; font-weight: 700; color: var(--green-dark); font-family: Georgia, serif; letter-spacing: -0.3px; }
+.lp-nav-links { display: flex; list-style: none; height: 68px; }
+.lp-nav-links a {
+  display: flex; align-items: center; height: 68px;
+  padding: 0 18px; font-size: 13.5px; font-weight: 600; color: #333;
+  border-bottom: 3px solid transparent; margin-bottom: -3px;
+  transition: color .15s, border-color .15s;
+}
+.lp-nav-links a:hover { color: var(--green-mid); border-bottom-color: var(--green-mid); }
+.lp-nav-actions { display: flex; gap: 10px; align-items: center; }
+.btn-outline-green {
+  border: 2px solid var(--green-mid); color: var(--green-mid);
+  background: transparent; padding: 8px 20px; border-radius: 5px;
+  font-size: 13px; font-weight: 700; transition: all .2s;
+}
+.btn-outline-green:hover { background: var(--green-mid); color: #fff; }
+.btn-solid-green {
+  background: var(--green-mid); color: #fff;
+  border: 2px solid var(--green-mid); padding: 8px 20px;
+  border-radius: 5px; font-size: 13px; font-weight: 700; transition: all .2s;
+}
+.btn-solid-green:hover { background: var(--green-dark); border-color: var(--green-dark); }
+
+/* ── Hero ── */
+.lp-hero {
+  background: linear-gradient(118deg, var(--green-dark) 0%, var(--green-mid) 55%, var(--green-light) 100%);
+  padding: 80px 48px 0;
+  display: flex;
+  align-items: flex-end;
+  min-height: 460px;
+  position: relative;
+  overflow: hidden;
+}
+.lp-hero-content { max-width: 600px; padding-bottom: 80px; position: relative; z-index: 2; }
+.lp-hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.32);
+  color: #fff; font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 20px; margin-bottom: 22px;
+}
+.lp-hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: #7ed4a6; display: inline-block; }
+.lp-hero h1 {
+  font-size: 46px; font-weight: 700; color: #fff;
+  font-family: Georgia, serif; line-height: 1.13; margin-bottom: 20px;
+}
+.lp-hero h1 em { font-style: normal; color: #7ed4a6; }
+.lp-hero-sub {
+  font-size: 16px; color: rgba(255,255,255,0.85);
+  line-height: 1.72; margin-bottom: 36px; max-width: 500px;
+}
+.lp-hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-btn-white {
+  background: #fff; color: var(--green-dark);
+  border: none; padding: 14px 32px; border-radius: 5px;
+  font-size: 15px; font-weight: 700; transition: background .2s; display: inline-block;
+}
+.hero-btn-white:hover { background: #e0f2e8; }
+.hero-btn-ghost {
+  background: transparent; color: #fff;
+  border: 2px solid rgba(255,255,255,0.6);
+  padding: 14px 32px; border-radius: 5px;
+  font-size: 15px; font-weight: 700; transition: all .2s; display: inline-block;
+}
+.hero-btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+.lp-hero-art {
+  position: absolute; right: 0; bottom: 0;
+  width: 420px; height: 100%; opacity: 0.09;
+  pointer-events: none;
+}
+
+/* ── Offer strip ── */
+.lp-offer {
+  background: #fff;
+  border-bottom: 3px solid var(--green-mid);
+  padding: 15px 48px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 18px; flex-wrap: wrap;
+}
+.lp-offer strong { color: var(--green-dark); font-size: 15px; }
+.lp-offer span { color: #555; font-size: 13.5px; }
+.lp-offer a {
+  background: var(--green-mid); color: #fff;
+  padding: 8px 20px; border-radius: 4px;
+  font-size: 13px; font-weight: 700;
+  transition: background .2s; white-space: nowrap;
+}
+.lp-offer a:hover { background: var(--green-dark); }
+
+/* ── Quick links ── */
+.lp-quicklinks {
+  background: #fff; border-bottom: 1px solid var(--border);
+  padding: 0 48px; display: flex; overflow-x: auto;
+}
+.lp-quicklinks::-webkit-scrollbar { height: 0; }
+.lp-ql {
+  padding: 15px 22px; font-size: 13px; font-weight: 600; color: #333;
+  border-right: 1px solid #eaf0eb; white-space: nowrap;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 3px solid transparent;
+  transition: all .15s;
+}
+.lp-ql:hover { color: var(--green-mid); border-bottom-color: var(--green-mid); background: var(--green-bg); }
+.lp-ql svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── Section base ── */
+.lp-section { padding: 68px 48px; }
+.lp-section-gray { background: var(--green-bg); }
+.lp-eyebrow {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--green-mid); margin-bottom: 10px;
+}
+.lp-section-h { font-size: 28px; font-weight: 700; color: var(--green-dark); font-family: Georgia, serif; margin-bottom: 10px; line-height: 1.22; }
+.lp-section-p { font-size: 15px; color: var(--text-mid); max-width: 520px; line-height: 1.7; }
+.lp-section-header { margin-bottom: 38px; }
+
+/* ── Product cards ── */
+.lp-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 20px; }
+.lp-card {
+  background: #fff; border: 1px solid var(--green-border);
+  border-top: 4px solid var(--green-mid);
+  border-radius: 0 0 10px 10px; padding: 28px 22px;
+  transition: box-shadow .2s, transform .2s;
+}
+.lp-card:hover { box-shadow: 0 8px 28px rgba(0,131,62,.13); transform: translateY(-3px); }
+.lp-card-icon {
+  width: 46px; height: 46px; background: var(--green-pale);
+  border-radius: 9px; display: flex; align-items: center;
+  justify-content: center; margin-bottom: 18px;
+}
+.lp-card-icon svg { width: 22px; height: 22px; stroke: var(--green-dark); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.lp-card h3 { font-size: 16px; font-weight: 700; color: var(--green-dark); margin-bottom: 8px; }
+.lp-card p { font-size: 13px; color: #555; line-height: 1.62; margin-bottom: 18px; }
+.lp-card-link { font-size: 13px; font-weight: 700; color: var(--green-mid); display: inline-flex; align-items: center; gap: 4px; }
+.lp-card-link:hover { color: var(--green-dark); }
+
+/* ── Promo band ── */
+.lp-promo {
+  background: var(--green-dark);
+  padding: 56px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; flex-wrap: wrap;
+}
+.lp-promo h2 { font-size: 24px; color: #fff; font-family: Georgia, serif; margin-bottom: 8px; }
+.lp-promo p { font-size: 14px; color: rgba(255,255,255,0.75); max-width: 520px; line-height: 1.68; }
+.lp-promo a {
+  background: #fff; color: var(--green-dark);
+  padding: 15px 36px; border-radius: 5px;
+  font-size: 14px; font-weight: 700;
+  white-space: nowrap; flex-shrink: 0;
+  transition: background .2s; display: inline-block;
+}
+.lp-promo a:hover { background: #e0f2e8; }
+
+/* ── Stats ── */
+.lp-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; }
+.lp-stat { text-align: center; padding: 28px 16px; }
+.lp-stat-num { font-size: 38px; font-weight: 700; color: var(--green-mid); font-family: Georgia, serif; margin-bottom: 8px; }
+.lp-stat h3 { font-size: 15px; font-weight: 700; color: var(--green-dark); margin-bottom: 6px; }
+.lp-stat p { font-size: 13px; color: #666; line-height: 1.55; }
+
+/* ── Rates table ── */
+.lp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.lp-table thead tr { background: var(--green-dark); }
+.lp-table th { padding: 13px 20px; color: #fff; text-align: left; font-size: 12.5px; letter-spacing: 0.3px; }
+.lp-table td { padding: 13px 20px; border-bottom: 1px solid #dde8e2; color: #333; }
+.lp-table tr:nth-child(even) td { background: var(--green-bg); }
+.lp-table tr:hover td { background: #d6eddf; }
+.rate-val { color: var(--green-mid); font-weight: 700; }
+
+/* ── Testimonials ── */
+.lp-testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.lp-tcard {
+  background: #fff; border: 1px solid var(--green-border);
+  border-radius: 10px; padding: 26px;
+}
+.lp-tcard-stars { color: var(--green-mid); font-size: 15px; letter-spacing: 2px; margin-bottom: 12px; }
+.lp-tcard p { font-size: 14px; color: #444; line-height: 1.68; margin-bottom: 16px; font-style: italic; }
+.lp-tcard-name { font-size: 13px; font-weight: 700; color: var(--green-dark); }
+.lp-tcard-loc { font-size: 12px; color: #999; }
+
+/* ── LP Footer ── */
+.lp-footer { background: #00200f; padding: 52px 48px 22px; }
+.lp-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 44px; margin-bottom: 40px; }
+.lp-footer-brand-logo { font-size: 20px; font-weight: 700; color: #7ed4a6; font-family: Georgia, serif; display: block; margin-bottom: 14px; }
+.lp-footer-brand p { color: rgba(255,255,255,0.45); font-size: 12px; line-height: 1.75; max-width: 240px; }
+.lp-footer-fdic {
+  display: inline-block; margin-top: 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.45); font-size: 10px;
+  font-weight: 700; padding: 4px 10px; border-radius: 3px;
+  letter-spacing: 1.2px;
+}
+.lp-footer-col h4 { color: #7ed4a6; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 16px; }
+.lp-footer-col ul { list-style: none; }
+.lp-footer-col li { margin-bottom: 10px; }
+.lp-footer-col a { color: rgba(255,255,255,0.45); font-size: 13px; transition: color .15s; }
+.lp-footer-col a:hover { color: #fff; }
+.lp-footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 10px;
+}
+.lp-footer-bottom p { color: rgba(255,255,255,0.3); font-size: 12px; }
+.lp-footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.lp-footer-links a { color: rgba(255,255,255,0.3); font-size: 12px; transition: color .15s; }
+.lp-footer-links a:hover { color: #fff; }
+
+/* ── Login CTA float (landing) ── */
+.lp-login-cta {
+  background: var(--green-bg);
+  border: 1.5px solid var(--green-border);
+  border-radius: 10px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.lp-login-cta h3 { font-size: 17px; font-weight: 700; color: var(--green-dark); font-family: Georgia, serif; margin-bottom: 4px; }
+.lp-login-cta p { font-size: 13px; color: var(--text-mid); }
+
+
+/* ═══════════════════════════════════════════════
+   ░░░ LOGIN PAGE ░░░
+═══════════════════════════════════════════════ */
+#loginPage {
+  background: linear-gradient(140deg, #002d14 0%, var(--green-mid) 100%);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+.login-hdr {
+  padding: 18px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.login-hdr-logo { display: flex; align-items: center; gap: 11px; }
+.login-hdr-circle {
+  width: 40px; height: 40px; background: #fff;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.login-hdr-circle svg { width: 22px; height: 22px; }
+.login-hdr-text { font-size: 22px; font-weight: 700; color: #fff; font-family: Georgia, serif; }
+.login-hdr-back {
+  color: rgba(255,255,255,0.7); font-size: 13px;
+  display: flex; align-items: center; gap: 5px;
+  transition: color .15s;
+}
+.login-hdr-back:hover { color: #fff; }
+.login-body {
+  flex: 1; display: flex; align-items: center;
+  justify-content: center; padding: 48px 20px;
+}
+.login-card {
+  background: #fff; border-radius: 12px;
+  padding: 48px 44px; width: 100%; max-width: 440px;
+  box-shadow: 0 24px 72px rgba(0,0,0,0.28);
+}
+.login-card-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--green-mid); margin-bottom: 8px;
+}
+.login-card h2 {
+  font-size: 24px; font-weight: 700; color: var(--green-dark);
+  font-family: Georgia, serif; margin-bottom: 5px;
+}
+.login-card-sub { font-size: 13px; color: var(--text-light); margin-bottom: 32px; }
+.login-error {
+  background: #fde8e8; border: 1px solid #f5b5b5;
+  color: #a93226; font-size: 13px; padding: 11px 15px;
+  border-radius: 6px; margin-bottom: 18px; display: none;
+  align-items: center; gap: 8px;
+}
+.login-error svg { width: 15px; height: 15px; flex-shrink: 0; stroke: #a93226; fill: none; stroke-width: 2; }
+.fg { margin-bottom: 20px; }
+.fg label {
+  display: block; font-size: 11px; font-weight: 700;
+  color: #444; margin-bottom: 7px; letter-spacing: 0.5px; text-transform: uppercase;
+}
+.fg input {
+  width: 100%; padding: 13px 15px;
+  border: 1.5px solid #ccc; border-radius: 6px;
+  font-size: 15px; color: #222; outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.fg input:focus { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(0,131,62,0.1); }
+.login-btn-main {
+  width: 100%; background: var(--green-mid); color: #fff;
+  border: none; padding: 15px; border-radius: 6px;
+  font-size: 15px; font-weight: 700; margin-top: 6px;
+  transition: background .2s;
+}
+.login-btn-main:hover { background: var(--green-dark); }
+.login-links {
+  display: flex; justify-content: space-between; margin-top: 20px;
+}
+.login-links a { font-size: 13px; color: var(--green-mid); }
+.login-links a:hover { text-decoration: underline; }
+.login-secure {
+  margin-top: 28px; padding-top: 18px;
+  border-top: 1px solid #eee;
+  display: flex; align-items: center; justify-content: center;
+  gap: 7px; font-size: 12px; color: #aaa;
+}
+.login-secure svg { width: 13px; height: 13px; stroke: var(--green-mid); fill: none; stroke-width: 2; }
+.login-ftr {
+  text-align: center; padding: 22px;
+  color: rgba(255,255,255,0.45); font-size: 12px;
+}
+.login-ftr a { color: rgba(255,255,255,0.45); }
+.login-ftr a:hover { color: #fff; }
+
+/* ═══════════════════════════════════════════════
+   ░░░ DASHBOARD PAGE ░░░
+═══════════════════════════════════════════════ */
+#dashPage { background: #eef4f0; min-height: 100vh; }
+
+/* ── Dash top bar ── */
+.dash-topbar {
+  background: var(--green-dark); padding: 6px 40px;
+  display: flex; justify-content: flex-end;
+  align-items: center; gap: 0;
+}
+.dash-topbar a {
+  color: rgba(255,255,255,0.65); font-size: 11.5px;
+  padding: 0 14px; border-right: 1px solid rgba(255,255,255,0.15);
+  transition: color .15s;
+}
+.dash-topbar a:first-child { border-left: 1px solid rgba(255,255,255,0.15); }
+.dash-topbar a:hover { color: #fff; }
+
+/* ── Dash nav ── */
+.dash-nav {
+  background: #fff; border-bottom: 3px solid var(--green-mid);
+  padding: 0 40px; display: flex; align-items: center;
+  justify-content: space-between; height: 66px;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+.dash-logo { display: flex; align-items: center; gap: 10px; }
+.dash-logo-circle {
+  width: 40px; height: 40px; background: var(--green-mid);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.dash-logo-circle svg { width: 22px; height: 22px; }
+.dash-logo-text { font-size: 20px; font-weight: 700; color: var(--green-dark); font-family: Georgia, serif; }
+.dash-nav-links { display: flex; list-style: none; height: 66px; }
+.dash-nav-links a {
+  display: flex; align-items: center; height: 66px;
+  padding: 0 16px; font-size: 13px; font-weight: 600; color: #333;
+  border-bottom: 3px solid transparent; margin-bottom: -3px;
+  transition: color .15s, border-color .15s;
+}
+.dash-nav-links a:hover, .dash-nav-links a.active { color: var(--green-mid); border-bottom-color: var(--green-mid); }
+.dash-nav-right { display: flex; align-items: center; gap: 14px; }
+.dash-avatar {
+  width: 36px; height: 36px; background: var(--green-mid);
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; color: #fff; font-size: 13px; font-weight: 700;
+}
+.dash-uname { font-size: 13px; font-weight: 600; color: #333; }
+.dash-logout {
+  border: 1.5px solid var(--green-mid); color: var(--green-mid);
+  background: transparent; padding: 7px 16px; border-radius: 5px;
+  font-size: 12px; font-weight: 700; transition: all .2s;
+}
+.dash-logout:hover { background: var(--green-mid); color: #fff; }
+
+/* ── Welcome banner ── */
+.dash-welcome {
+  background: linear-gradient(110deg, var(--green-dark) 0%, var(--green-mid) 100%);
+  padding: 26px 40px;
+}
+.dash-welcome-greeting { font-size: 20px; font-weight: 700; color: #fff; font-family: Georgia, serif; margin-bottom: 5px; }
+.dash-welcome-sub {
+  font-size: 12px; color: rgba(255,255,255,0.68);
+  display: flex; align-items: center; gap: 6px;
+}
+.dash-welcome-sub svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ── Dash body ── */
+.dash-body { padding: 28px 40px; max-width: 1080px; margin: 0 auto; }
+
+/* ── Account card ── */
+.acct-card {
+  background: #fff; border-radius: 10px;
+  border: 1px solid var(--green-border);
+  border-left: 5px solid var(--green-mid);
+  box-shadow: 0 3px 14px rgba(0,131,62,0.08);
+  margin-bottom: 22px; overflow: hidden;
+}
+.acct-card-hdr {
+  padding: 20px 24px; display: flex;
+  align-items: center; justify-content: space-between;
+  cursor: pointer; user-select: none; transition: background .15s;
+}
+.acct-card-hdr:hover { background: #f7fbf8; }
+.acct-left { display: flex; flex-direction: column; gap: 3px; }
+.acct-type { font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--green-mid); }
+.acct-name { font-size: 18px; font-weight: 700; color: var(--green-dark); font-family: Georgia, serif; }
+.acct-num-label { font-size: 13px; color: var(--text-light); }
+.acct-right-wrap { display: flex; align-items: center; gap: 20px; }
+.acct-right { text-align: right; }
+.acct-bal-label { font-size: 10.5px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.acct-bal { font-size: 30px; font-weight: 700; color: var(--green-dark); font-family: Georgia, serif; }
+.acct-avail { font-size: 13px; color: #666; margin-top: 2px; }
+.acct-chevron { transition: transform .25s; }
+.acct-chevron.open { transform: rotate(180deg); }
+.acct-chevron svg { width: 18px; height: 18px; stroke: var(--green-mid); fill: none; stroke-width: 2.5; }
+
+/* ── Account details dropdown ── */
+.acct-details {
+  display: none; border-top: 1px solid #e0ece5;
+  background: #f7fbf8; padding: 22px 26px;
+}
+.acct-details.open { display: block; }
+.acct-details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 22px; }
+.detail-item label {
+  display: block; font-size: 10px; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  color: #888; margin-bottom: 5px;
+}
+.detail-item span {
+  font-size: 14.5px; font-weight: 700; color: var(--green-dark);
+  font-family: 'Courier New', monospace; letter-spacing: 0.5px;
+}
+.detail-item .not-enrolled { color: var(--red); font-family: Arial; font-size: 13px; font-weight: 700; }
+.acct-detail-note {
+  margin-top: 18px; font-size: 12px; color: #888;
+  padding: 10px 14px; background: #fff;
+  border: 1px solid var(--green-border); border-radius: 6px;
+}
+
+/* ── Quick actions ── */
+.qa-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+.qa-btn {
+  background: #fff; border: 1.5px solid var(--green-border);
+  border-radius: 8px; padding: 11px 18px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: var(--green-dark);
+  transition: all .2s; white-space: nowrap;
+}
+.qa-btn:hover { background: var(--green-pale); border-color: var(--green-mid); }
+.qa-btn svg { width: 16px; height: 16px; stroke: var(--green-mid); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── Transactions ── */
+.txn-wrap {
+  background: #fff; border-radius: 10px;
+  border: 1px solid var(--green-border);
+  box-shadow: 0 3px 14px rgba(0,131,62,0.07);
+  overflow: hidden;
+}
+.txn-hdr {
+  padding: 18px 24px; display: flex;
+  align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.txn-hdr h3 { font-size: 16px; font-weight: 700; color: var(--green-dark); font-family: Georgia, serif; }
+.txn-filter-row { display: flex; gap: 8px; }
+.txn-filter {
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 700;
+  border: 1.5px solid var(--green-border);
+  background: #fff; color: #555;
+  cursor: pointer; transition: all .15s;
+}
+.txn-filter.active, .txn-filter:hover { background: var(--green-mid); color: #fff; border-color: var(--green-mid); }
+.txn-date-hdr {
+  padding: 8px 24px; background: #f0f8f3;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--green-mid);
+  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+}
+.txn-row {
+  padding: 16px 24px;
+  display: grid; grid-template-columns: 40px 1fr auto;
+  align-items: center; gap: 14px;
+  border-bottom: 1px solid #f0f5f2;
+  transition: background .15s; cursor: pointer;
+}
+.txn-row:hover { background: #f7fbf8; }
+.txn-row:last-of-type { border-bottom: none; }
+.txn-icon {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.txn-icon.cr { background: var(--green-pale); }
+.txn-icon.db { background: var(--red-pale); }
+.txn-icon svg { width: 17px; height: 17px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.txn-icon.cr svg { stroke: var(--green-mid); }
+.txn-icon.db svg { stroke: var(--red); }
+.txn-info { min-width: 0; }
+.txn-desc { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+.txn-sub { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+.txn-conf { font-size: 11px; color: #bbb; font-family: 'Courier New', monospace; margin-top: 2px; }
+.txn-rhs { text-align: right; flex-shrink: 0; }
+.txn-amt { font-size: 15px; font-weight: 700; }
+.txn-amt.cr { color: var(--green-mid); }
+.txn-amt.db { color: var(--red); }
+.txn-badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  padding: 2px 9px; border-radius: 10px; margin-top: 5px;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.badge-sent { background: var(--gold-pale); color: var(--gold); }
+.badge-received { background: var(--green-pale); color: var(--green-mid); }
+
+/* ── Summary bar ── */
+.txn-summary {
+  padding: 16px 24px; background: #f7fbf8;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 36px; flex-wrap: wrap;
+}
+.ts-item label { font-size: 10.5px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 3px; }
+.ts-item span { font-size: 15px; font-weight: 700; }
+.ts-item span.in { color: var(--green-mid); }
+.ts-item span.out { color: var(--red); }
+
+/* ── Dash footer ── */
+.dash-footer {
+  background: #00200f; margin-top: 40px;
+  padding: 20px 40px;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 10px;
+}
+.dash-footer p { color: rgba(255,255,255,0.3); font-size: 12px; }
+.dash-footer-links { display: flex; gap: 16px; }
+.dash-footer-links a { color: rgba(255,255,255,0.3); font-size: 12px; transition: color .15s; }
+.dash-footer-links a:hover { color: #fff; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 820px) {
+  .lp-topbar, .lp-nav-links, .dash-topbar, .dash-nav-links { display: none; }
+  .lp-nav, .dash-nav { padding: 0 18px; }
+  .lp-hero { padding: 46px 18px 0; min-height: 360px; }
+  .lp-hero h1 { font-size: 30px; }
+  .lp-section, .lp-promo { padding: 44px 18px; }
+  .lp-quicklinks { padding: 0 18px; }
+  .lp-offer { padding: 14px 18px; }
+  .lp-footer-grid { grid-template-columns: 1fr 1fr; }
+  .lp-footer { padding: 40px 18px 20px; }
+  .dash-body { padding: 16px; }
+  .dash-welcome { padding: 20px 16px; }
+  .txn-row { padding: 14px 16px; gap: 10px; }
+  .txn-hdr { padding: 16px; }
+  .dash-footer { padding: 18px 16px; }
+  .login-card { padding: 36px 28px; }
+  .acct-bal { font-size: 22px; }
+}
+@media (max-width: 480px) {
+  .lp-footer-grid, .lp-cards { grid-template-columns: 1fr; }
+  .lp-stats { grid-template-columns: 1fr 1fr; }
+  .txn-conf { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 1 — LANDING PAGE
+══════════════════════════════════════════════════ -->
+<div id="landingPage" class="page active">
+
+  <!-- Top bar -->
+  <div class="lp-topbar">
+    <a href="#">En Español</a>
+    <a href="#">Locations &amp; ATMs</a>
+    <a href="#">Customer Service</a>
+    <a href="#">About Regions</a>
+  </div>
+
+  <!-- Main nav -->
+  <nav class="lp-nav">
+    <div class="lp-logo">
+      <div class="lp-logo-mark">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 7h9a4 4 0 0 1 0 8H4V7z" fill="#fff"/>
+          <path d="M13 15l4 5" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="lp-logo-text">Regions</span>
+    </div>
+    <ul class="lp-nav-links">
+      <li><a href="#">Personal &#9662;</a></li>
+      <li><a href="#">Business &#9662;</a></li>
+      <li><a href="#">Wealth &#9662;</a></li>
+      <li><a href="#">About Us &#9662;</a></li>
+    </ul>
+    <div class="lp-nav-actions">
+      <button class="btn-outline-green" onclick="goLogin()">Log in</button>
+      <button class="btn-solid-green" onclick="goLogin()">Open account</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="lp-hero">
+    <div class="lp-hero-content">
+      <div class="lp-hero-badge"><span></span> Limited time offer</div>
+      <h1>Banking that moves with <em>your life</em></h1>
+      <p class="lp-hero-sub">From everyday checking to long-term wealth planning, Regions gives you the tools, advice, and support to make progress on what matters most to you.</p>
+      <div class="lp-hero-btns">
+        <a href="#" class="hero-btn-white" onclick="goLogin();return false;">Open an account</a>
+        <a href="#" class="hero-btn-ghost">Explore products</a>
+      </div>
+    </div>
+    <div class="lp-hero-art" aria-hidden="true">
+      <svg viewBox="0 0 420 460" fill="none">
+        <circle cx="340" cy="90" r="200" fill="#fff"/>
+        <circle cx="240" cy="340" r="140" fill="#fff"/>
+        <circle cx="80" cy="380" r="100" fill="#fff"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Offer strip -->
+  <div class="lp-offer">
+    <strong>Earn a $300 bonus</strong>
+    <span>Open a LifeGreen&#174; Checking account and complete qualifying activities. Offer ends August 31, 2026.</span>
+    <a href="#" onclick="goLogin();return false;">Get started &#8594;</a>
+  </div>
+
+  <!-- Quick links -->
+  <div class="lp-quicklinks">
+    <a href="#" class="lp-ql"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Checking</a>
+    <a href="#" class="lp-ql"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Savings &amp; CDs</a>
+    <a href="#" class="lp-ql"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Mortgages</a>
+    <a href="#" class="lp-ql"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h6v8a2 2 0 0 1-2 2h-4"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Auto Loans</a>
+    <a href="#" class="lp-ql"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Investments</a>
+    <a href="#" class="lp-ql"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="12" cy="12" r="2"/></svg>Credit Cards</a>
+    <a href="#" class="lp-ql"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Business Banking</a>
+  </div>
+
+  <!-- Login CTA -->
+  <div class="lp-section" style="padding-bottom:0;">
+    <div class="lp-login-cta">
+      <div>
+        <h3>Already a Regions customer?</h3>
+        <p>Sign in to view your accounts, transfer funds, pay bills, and more.</p>
+      </div>
+      <button class="btn-solid-green" style="padding:12px 28px;font-size:14px;" onclick="goLogin()">Log in to Online Banking</button>
+    </div>
+  </div>
+
+  <!-- Products -->
+  <div class="lp-section">
+    <div class="lp-section-header">
+      <div class="lp-eyebrow">Products &amp; Services</div>
+      <h2 class="lp-section-h">Find the right account for you</h2>
+      <p class="lp-section-p">Whether you're just starting out or planning for the future, Regions has solutions for every stage of your financial journey.</p>
+    </div>
+    <div class="lp-cards">
+      <div class="lp-card">
+        <div class="lp-card-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+        <h3>LifeGreen&#174; Checking</h3>
+        <p>No monthly fee with qualifying activity. Free mobile check deposit, Zelle&#174;, and 24/7 digital banking.</p>
+        <a href="#" class="lp-card-link">Learn more &#8594;</a>
+      </div>
+      <div class="lp-card">
+        <div class="lp-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>High-Yield Savings</h3>
+        <p>Earn up to 4.75% APY with no minimums. Set savings goals and watch your money grow automatically.</p>
+        <a href="#" class="lp-card-link">Learn more &#8594;</a>
+      </div>
+      <div class="lp-card">
+        <div class="lp-card-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+        <h3>Home Loans</h3>
+        <p>Fixed and adjustable-rate mortgages, refinancing, and home equity lines. Pre-qualify in minutes.</p>
+        <a href="#" class="lp-card-link">Learn more &#8594;</a>
+      </div>
+      <div class="lp-card">
+        <div class="lp-card-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>Investing &amp; Retirement</h3>
+        <p>IRAs, brokerage accounts, and managed portfolios with guidance from Regions Investment Solutions.</p>
+        <a href="#" class="lp-card-link">Learn more &#8594;</a>
+      </div>
+      <div class="lp-card">
+        <div class="lp-card-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h6v8a2 2 0 0 1-2 2h-4"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <h3>Auto &amp; Personal Loans</h3>
+        <p>Competitive rates on new and used vehicles plus flexible personal loans for life's big moments.</p>
+        <a href="#" class="lp-card-link">Learn more &#8594;</a>
+      </div>
+      <div class="lp-card">
+        <div class="lp-card-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <h3>Credit Cards</h3>
+        <p>Cashback, travel rewards, and low-rate options — all with no annual fee on our everyday cards.</p>
+        <a href="#" class="lp-card-link">Learn more &#8594;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Promo band -->
+  <div class="lp-promo">
+    <div>
+      <h2>Switch to Regions and earn $300</h2>
+      <p>Open a new LifeGreen&#174; Checking account, set up qualifying direct deposit, and complete 10 qualifying transactions within 60 days. It's that simple.</p>
+    </div>
+    <a href="#" onclick="goLogin();return false;">Claim your bonus &#8594;</a>
+  </div>
+
+  <!-- Stats -->
+  <div class="lp-section lp-section-gray">
+    <div class="lp-section-header">
+      <div class="lp-eyebrow">Why Regions</div>
+      <h2 class="lp-section-h">A bank you can count on</h2>
+    </div>
+    <div class="lp-stats">
+      <div class="lp-stat">
+        <div class="lp-stat-num">$160B+</div>
+        <h3>In total assets</h3>
+        <p>One of the most financially sound banks in the nation.</p>
+      </div>
+      <div class="lp-stat">
+        <div class="lp-stat-num">16M+</div>
+        <h3>Customers served</h3>
+        <p>Trusted by individuals, families, and businesses across 15 states.</p>
+      </div>
+      <div class="lp-stat">
+        <div class="lp-stat-num">1,300+</div>
+        <h3>Branch locations</h3>
+        <p>A network of branches and ATMs across the South, Midwest, and Texas.</p>
+      </div>
+      <div class="lp-stat">
+        <div class="lp-stat-num">Since 1971</div>
+        <h3>Serving communities</h3>
+        <p>Decades of putting customers and communities first.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rates -->
+  <div class="lp-section">
+    <div class="lp-section-header">
+      <div class="lp-eyebrow">Current Rates</div>
+      <h2 class="lp-section-h">Competitive rates, no surprises</h2>
+      <p class="lp-section-p">Rates effective June 27, 2026. APYs subject to change. Member FDIC.</p>
+    </div>
+    <table class="lp-table">
+      <thead><tr><th>Account</th><th>Min. Deposit</th><th>APY</th><th>Term</th></tr></thead>
+      <tbody>
+        <tr><td>LifeGreen&#174; Savings</td><td>$50</td><td class="rate-val">4.75%</td><td>None</td></tr>
+        <tr><td>Money Market Select</td><td>$1,000</td><td class="rate-val">4.40%</td><td>None</td></tr>
+        <tr><td>6-Month CD</td><td>$500</td><td class="rate-val">4.85%</td><td>6 months</td></tr>
+        <tr><td>12-Month CD</td><td>$500</td><td class="rate-val">4.90%</td><td>12 months</td></tr>
+        <tr><td>24-Month CD</td><td>$500</td><td class="rate-val">4.65%</td><td>24 months</td></tr>
+        <tr><td>LifeGreen&#174; Checking</td><td>$0</td><td class="rate-val">&#8212;</td><td>None</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="lp-section lp-section-gray">
+    <div class="lp-section-header">
+      <div class="lp-eyebrow">Customer Stories</div>
+      <h2 class="lp-section-h">Real people, real results</h2>
+    </div>
+    <div class="lp-testimonials">
+      <div class="lp-tcard">
+        <div class="lp-tcard-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>"Switching to Regions was one of the best financial decisions I've made. The mobile app is intuitive and I love the savings goals feature."</p>
+        <div class="lp-tcard-name">Marcus T.</div>
+        <div class="lp-tcard-loc">Nashville, TN</div>
+      </div>
+      <div class="lp-tcard">
+        <div class="lp-tcard-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>"We used Regions for our first home mortgage. Our loan officer walked us through everything — the whole process was incredibly smooth."</p>
+        <div class="lp-tcard-name">Priya &amp; James K.</div>
+        <div class="lp-tcard-loc">Birmingham, AL</div>
+      </div>
+      <div class="lp-tcard">
+        <div class="lp-tcard-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>"The business checking account has excellent tools for expense tracking. Customer service is always responsive and genuinely helpful."</p>
+        <div class="lp-tcard-name">Sandra M.</div>
+        <div class="lp-tcard-loc">Houston, TX</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="lp-footer">
+    <div class="lp-footer-grid">
+      <div class="lp-footer-brand">
+        <span class="lp-footer-brand-logo">Regions</span>
+        <p>Regions Financial Corporation and its subsidiaries. Member FDIC. Equal Housing Lender. Deposits insured up to $250,000 per depositor.</p>
+        <span class="lp-footer-fdic">FDIC INSURED</span>
+      </div>
+      <div class="lp-footer-col">
+        <h4>Personal</h4>
+        <ul>
+          <li><a href="#">Checking accounts</a></li>
+          <li><a href="#">Savings &amp; CDs</a></li>
+          <li><a href="#">Credit cards</a></li>
+          <li><a href="#">Home loans</a></li>
+          <li><a href="#">Auto loans</a></li>
+          <li><a href="#">Personal loans</a></li>
+        </ul>
+      </div>
+      <div class="lp-footer-col">
+        <h4>Business</h4>
+        <ul>
+          <li><a href="#">Business checking</a></li>
+          <li><a href="#">Business loans</a></li>
+          <li><a href="#">Merchant services</a></li>
+          <li><a href="#">Treasury management</a></li>
+          <li><a href="#">Business credit cards</a></li>
+        </ul>
+      </div>
+      <div class="lp-footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Regions</a></li>
+          <li><a href="#">Investor relations</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="lp-footer-bottom">
+      <p>&#169; 2026 Regions Bank. All rights reserved.</p>
+      <div class="lp-footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Accessibility</a>
+        <a href="#">Fraud &amp; Security</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </footer>
+</div><!-- /landingPage -->
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 2 — LOGIN PAGE
+══════════════════════════════════════════════════ -->
+<div id="loginPage" class="page">
+  <div class="login-hdr">
+    <div class="login-hdr-logo">
+      <div class="login-hdr-circle">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 7h9a4 4 0 0 1 0 8H4V7z" fill="#00833e"/>
+          <path d="M13 15l4 5" stroke="#00833e" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="login-hdr-text">Regions</span>
+    </div>
+    <a href="#" class="login-hdr-back" onclick="goLanding();return false;">
+      &#8592; Back to regions.com
+    </a>
+  </div>
+
+  <div class="login-body">
+    <div class="login-card">
+      <div class="login-card-eyebrow">Secure Online Banking</div>
+      <h2>Sign in to your account</h2>
+      <p class="login-card-sub">Enter your Regions Online Banking credentials below.</p>
+
+      <div class="login-error" id="loginError">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Incorrect username or password. Please try again.
+      </div>
+
+      <div class="fg">
+        <label>Username</label>
+        <input type="text" id="uInput" placeholder="Enter your username" autocomplete="username"/>
+      </div>
+      <div class="fg">
+        <label>Password</label>
+        <input type="password" id="pInput" placeholder="Enter your password" autocomplete="current-password"/>
+      </div>
+
+      <button class="login-btn-main" onclick="doLogin()">Log In</button>
+
+      <div class="login-links">
+        <a href="#">Forgot username?</a>
+        <a href="#">Forgot password?</a>
+      </div>
+
+      <div class="login-secure">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Secured with 256-bit SSL encryption — Regions Bank
+      </div>
+    </div>
+  </div>
+
+  <div class="login-ftr">
+    &#169; 2026 Regions Bank &nbsp;|&nbsp; Member FDIC &nbsp;|&nbsp; Equal Housing Lender &nbsp;|&nbsp;
+    <a href="#">Privacy Policy</a> &nbsp;|&nbsp; <a href="#">Terms of Use</a>
+  </div>
+</div><!-- /loginPage -->
+
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 3 — DASHBOARD PAGE
+══════════════════════════════════════════════════ -->
+<div id="dashPage" class="page">
+
+  <!-- Top bar -->
+  <div class="dash-topbar">
+    <a href="#">En Español</a>
+    <a href="#">Locations &amp; ATMs</a>
+    <a href="#">Customer Service</a>
+    <a href="#">Security Center</a>
+  </div>
+
+  <!-- Nav -->
+  <nav class="dash-nav">
+    <div class="dash-logo">
+      <div class="dash-logo-circle">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 7h9a4 4 0 0 1 0 8H4V7z" fill="#fff"/>
+          <path d="M13 15l4 5" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="dash-logo-text">Regions</span>
+    </div>
+    <ul class="dash-nav-links">
+      <li><a href="#" class="active">Accounts</a></li>
+      <li><a href="#">Transfers</a></li>
+      <li><a href="#">Bill Pay</a></li>
+      <li><a href="#">Zelle&#174;</a></li>
+      <li><a href="#">Messages</a></li>
+    </ul>
+    <div class="dash-nav-right">
+      <div class="dash-avatar">SK</div>
+      <span class="dash-uname">Samuel K.</span>
+      <button class="dash-logout" onclick="doLogout()">Log out</button>
+    </div>
+  </nav>
+
+  <!-- Welcome -->
+  <div class="dash-welcome">
+    <div class="dash-welcome-greeting">Welcome, SAMUEL KOUAMEN KOUATCHEU.</div>
+    <div class="dash-welcome-sub">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Your last login was JUN 27, 2026 at 5:30 AM CT
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="dash-body">
+
+    <!-- Account card -->
+    <div class="acct-card">
+      <div class="acct-card-hdr" onclick="toggleAcctDetails()">
+        <div class="acct-left">
+          <span class="acct-type">Business Checking</span>
+          <span class="acct-name">GRACE SUITS LLC</span>
+          <span class="acct-num-label">Account &#8231;&#8231;&#8231;&#8231;1228</span>
+        </div>
+        <div class="acct-right-wrap">
+          <div class="acct-right">
+            <div class="acct-bal-label">Available Balance</div>
+            <div class="acct-bal">$14,400.00</div>
+            <div class="acct-avail">Total balance: $14,400.00</div>
+          </div>
+          <div class="acct-chevron" id="acctChevron">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="acct-details" id="acctDetails">
+        <div class="acct-details-grid">
+          <div class="detail-item">
+            <label>Account Number</label>
+            <span>0377781228</span>
+          </div>
+          <div class="detail-item">
+            <label>Routing Number (ACH Only)</label>
+            <span>061101375</span>
+          </div>
+          <div class="detail-item">
+            <label>Routing Number (Wire Only)</label>
+            <span>062005690</span>
+          </div>
+          <div class="detail-item">
+            <label>Overdraft Protection</label>
+            <span class="not-enrolled">Not enrolled</span>
+          </div>
+        </div>
+        <p class="acct-detail-note">&#128274; For your security, account details are masked in public places. Always verify routing numbers before initiating a wire transfer.</p>
+      </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="qa-row">
+      <button class="qa-btn"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>Transfer Funds</button>
+      <button class="qa-btn"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Wire Transfer</button>
+      <button class="qa-btn"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Pay Bills</button>
+      <button class="qa-btn"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Send via Zelle&#174;</button>
+      <button class="qa-btn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download Statement</button>
+    </div>
+
+    <!-- Transactions -->
+    <div class="txn-wrap">
+      <div class="txn-hdr">
+        <h3>Transaction History</h3>
+        <div class="txn-filter-row">
+          <button class="txn-filter active" onclick="filterTxn('all',this)">All</button>
+          <button class="txn-filter" onclick="filterTxn('cr',this)">Credits</button>
+          <button class="txn-filter" onclick="filterTxn('db',this)">Debits</button>
+        </div>
+      </div>
+
+      <!-- ─ JUN 26 ─ -->
+      <div class="txn-date-hdr" data-group="jun26">June 26, 2026</div>
+
+      <div class="txn-row" data-type="db">
+        <div class="txn-icon db">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="txn-info">
+          <div class="txn-desc">Samuel Kouatcheu</div>
+          <div class="txn-sub">Outgoing Wire Transfer</div>
+          <div class="txn-conf">Wire Conf #: 062AFHDJKE00459</div>
+        </div>
+        <div class="txn-rhs">
+          <div class="txn-amt db">&#8722;$1,200.00</div>
+          <span class="txn-badge badge-sent">Sent</span>
+        </div>
+      </div>
+
+      <div class="txn-row" data-type="db">
+        <div class="txn-icon db">
+          <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/></svg>
+        </div>
+        <div class="txn-info">
+          <div class="txn-desc">Zelle&#174; Transfer</div>
+          <div class="txn-sub">Zelle&#174; Debit — Outgoing Payment</div>
+        </div>
+        <div class="txn-rhs">
+          <div class="txn-amt db">&#8722;$500.00</div>
+          <span class="txn-badge badge-sent">Sent</span>
+        </div>
+      </div>
+
+      <!-- ─ JUN 25 ─ -->
+      <div class="txn-date-hdr" data-group="jun25">June 25, 2026</div>
+
+      <div class="txn-row" data-type="db">
+        <div class="txn-icon db">
+          <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/></svg>
+        </div>
+        <div class="txn-info">
+          <div class="txn-desc">Zelle&#174; Transfer</div>
+          <div class="txn-sub">Zelle&#174; Debit — Outgoing Payment</div>
+        </div>
+        <div class="txn-rhs">
+          <div class="txn-amt db">&#8722;$4,000.00</div>
+          <span class="txn-badge badge-sent">Sent</span>
+        </div>
+      </div>
+
+      <div class="txn-row" data-type="db">
+        <div class="txn-icon db">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="txn-info">
+          <div class="txn-desc">Samuel Kouatcheu</div>
+          <div class="txn-sub">Outgoing Wire Transfer</div>
+          <div class="txn-conf">Wire Conf #: 0683HEUJFKJS56739</div>
+        </div>
+        <div class="txn-rhs">
+          <div class="txn-amt db">&#8722;$32,000.00</div>
+          <span class="txn-badge badge-sent">Sent</span>
+        </div>
+      </div>
+
+      <!-- ─ JUN 24 ─ -->
+      <div class="txn-date-hdr" data-group="jun24">June 24, 2026</div>
+
+      <div class="txn-row" data-type="cr">
+        <div class="txn-icon cr">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="txn-info">
+          <div class="txn-desc">FULSON HOLDINGS</div>
+          <div class="txn-sub">Incoming Wire Transfer</div>
+        </div>
+        <div class="txn-rhs">
+          <div class="txn-amt cr">+$52,000.00</div>
+          <span class="txn-badge badge-received">Received</span>
+        </div>
+      </div>
+
+      <div class="txn-row" data-type="cr">
+        <div class="txn-icon cr">
+          <svg viewBox="0 0 24 24"><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        </div>
+        <div class="txn-info">
+          <div class="txn-desc">Zelle&#174; Transfer</div>
+          <div class="txn-sub">Zelle&#174; Credit — Incoming Payment</div>
+        </div>
+        <div class="txn-rhs">
+          <div class="txn-amt cr">+$500.00</div>
+          <span class="txn-badge badge-received">Received</span>
+        </div>
+      </div>
+
+      <div class="txn-row" data-type="db">
+        <div class="txn-icon db">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
+        </div>
+        <div class="txn-info">
+          <div class="txn-desc">Dandelion Payment, Inc dba Xe USA</div>
+          <div class="txn-sub">International Payment / FX Transfer</div>
+          <div class="txn-conf">Ref #: 062AFX2QCZ000002389</div>
+        </div>
+        <div class="txn-rhs">
+          <div class="txn-amt db">&#8722;$400.00</div>
+          <span class="txn-badge badge-sent">Sent</span>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="txn-summary">
+        <div class="ts-item"><label>Money In</label><span class="in">+$52,500.00</span></div>
+        <div class="ts-item"><label>Money Out</label><span class="out">&#8722;$38,100.00</span></div>
+        <div class="ts-item"><label>Transactions</label><span>7</span></div>
+        <div class="ts-item"><label>Period</label><span>Jun 24 – Jun 26, 2026</span></div>
+      </div>
+    </div><!-- /txn-wrap -->
+
+  </div><!-- /dash-body -->
+
+  <div class="dash-footer">
+    <p>&#169; 2026 Regions Bank. All rights reserved. Member FDIC. Equal Housing Lender.</p>
+    <div class="dash-footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Security</a>
+      <a href="#">Accessibility</a>
+    </div>
+  </div>
+</div><!-- /dashPage -->
+
+
+<!-- ══════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════ -->
+<script>
+  // ── Credentials ──
+  const CREDS = { user: 'GRACESUITS', pass: 'Regions2026!' };
+
+  // ── Page navigation ──
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+  function goLanding() { showPage('landingPage'); }
+  function goLogin()   { showPage('loginPage'); }
+  function doLogout()  {
+    document.getElementById('uInput').value = '';
+    document.getElementById('pInput').value = '';
+    document.getElementById('loginError').style.display = 'none';
+    showPage('landingPage');
+  }
+
+  // ── Login logic ──
+  function doLogin() {
+    const u = document.getElementById('uInput').value.trim().toUpperCase();
+    const p = document.getElementById('pInput').value;
+    const err = document.getElementById('loginError');
+    if (u === CREDS.user && p === CREDS.pass) {
+      err.style.display = 'none';
+      showPage('dashPage');
+    } else {
+      err.style.display = 'flex';
+      document.getElementById('pInput').value = '';
+      document.getElementById('pInput').focus();
+    }
+  }
+
+  // Enter key on login
+  ['uInput','pInput'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') doLogin();
+    });
+  });
+
+  // ── Account details toggle ──
+  function toggleAcctDetails() {
+    const det = document.getElementById('acctDetails');
+    const chev = document.getElementById('acctChevron');
+    const open = det.classList.toggle('open');
+    chev.classList.toggle('open', open);
+  }
+
+  // ── Transaction filter ──
+  function filterTxn(type, btn) {
+    document.querySelectorAll('.txn-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const rows = document.querySelectorAll('.txn-row');
+    const dateHdrs = document.querySelectorAll('.txn-date-hdr');
+
+    rows.forEach(row => {
+      if (type === 'all') {
+        row.style.display = '';
+      } else {
+        row.style.display = row.dataset.type === type ? '' : 'none';
+      }
+    });
+
+    // Hide date headers that have no visible rows below them
+    dateHdrs.forEach(hdr => {
+      let next = hdr.nextElementSibling;
+      let hasVisible = false;
+      while (next && !next.classList.contains('txn-date-hdr') && !next.classList.contains('txn-summary')) {
+        if (next.classList.contains('txn-row') && next.style.display !== 'none') {
+          hasVisible = true;
+          break;
+        }
+        next = next.nextElementSibling;
+      }
+      hdr.style.display = hasVisible ? '' : 'none';
+    });
+  }
+</script>
+</body>
+</html>
